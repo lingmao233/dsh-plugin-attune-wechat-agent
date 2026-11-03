@@ -31,10 +31,10 @@ host 半在 DSH 的 HTTP 服务上挂载同源 `/wechat/api/*` 代理、`/wechat
 本仓库就是插件源码。本地路径安装会以 `link:` 链接进 profile，因此先安装插件自身声明的依赖（DSH 包由宿主提供，`--omit=peer` 避免把 React 和 cordis 装第二份）：
 
 ```powershell
-git clone https://github.com/lingmao233/dsh-plugin-attune.git
-cd dsh-plugin-attune
+git clone https://github.com/lingmao233/dsh-plugin-attune-wechat-agent.git
+cd dsh-plugin-attune-wechat-agent
 npm ci --omit=peer
-dsh plugin --profile desktop add "C:\path\to\dsh-plugin-attune"
+dsh plugin --profile desktop add "C:\path\to\dsh-plugin-attune-wechat-agent"
 ```
 
 `dsh plugin ... add` 里的路径换成你克隆下来的**绝对路径**（在 PowerShell 里可用 `(Get-Location).Path` 查看当前目录）。也可以在 DSH 插件页面按本地目录安装，然后重启 DSH。修改插件代码后同样需要重启；没有 HMR 时按 DSH 提示操作。
@@ -42,7 +42,7 @@ dsh plugin --profile desktop add "C:\path\to\dsh-plugin-attune"
 如果使用 DSH 官方「添加插件」，也可以直接粘贴 GitHub 地址：
 
 ```text
-https://github.com/lingmao233/dsh-plugin-attune
+https://github.com/lingmao233/dsh-plugin-attune-wechat-agent
 ```
 
 首次安装会拉取依赖；装完按 DSH 提示重启。只输入裸包名 `dsh-plugin-attune` 时，需要该包已发布到 npm；目前以 GitHub 地址或本地目录为准。
@@ -127,7 +127,7 @@ https://github.com/lingmao233/dsh-plugin-attune
 内置源码包的维护：`assets/wechat-agent-linux-src.tar.gz` 由 `build/pack-source.mjs` 从 [wechat-agent-linux](https://github.com/lingmao233/wechat-agent-linux) 源码目录生成，排除 `.git`、`.venv`、`node_modules`、`tests`、`docs`、`.env`、数据库等。重新生成时，把源码仓库放在本插件目录的上一级，然后：
 
 ```powershell
-cd dsh-plugin-attune
+cd dsh-plugin-attune-wechat-agent
 npm run build:source
 ```
 

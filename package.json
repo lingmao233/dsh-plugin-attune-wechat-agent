@@ -60,11 +60,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lingmao233/dsh-plugin-attune.git"
+    "url": "git+https://github.com/lingmao233/dsh-plugin-attune-wechat-agent.git"
   },
-  "homepage": "https://github.com/lingmao233/dsh-plugin-attune",
+  "homepage": "https://github.com/lingmao233/dsh-plugin-attune-wechat-agent",
   "bugs": {
-    "url": "https://github.com/lingmao233/dsh-plugin-attune/issues"
+    "url": "https://github.com/lingmao233/dsh-plugin-attune-wechat-agent/issues"
   },
   "author": "lingmao233",
   "peerDependencies": {

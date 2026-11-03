@@ -6,7 +6,7 @@ Please **do not** open a public issue for security problems.
 
 Use GitHub's private vulnerability reporting on this repository:
 
-<https://github.com/lingmao233/dsh-plugin-attune/security/advisories/new>
+<https://github.com/lingmao233/dsh-plugin-attune-wechat-agent/security/advisories/new>
 
 Include the affected version, a minimal reproduction, and the impact. We will
 acknowledge the report and coordinate a fix before any public disclosure.
