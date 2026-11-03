@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.5 — 2026-11-03
+
+- When the plugin is already connected to a VM, the overview now moves the
+  "虚拟机与连接" card to the very end of the page. When not connected it stays
+  first as onboarding guidance.
+
 ## 0.3.4 — 2026-11-03
 
 - Reworked the echo detail header: "← 返回列表" is now a small text link on
