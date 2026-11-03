@@ -27,13 +27,13 @@
 本仓库就是插件源码。本地路径安装会以 `link:` 链接进 profile，因此先安装插件自身声明的依赖（DSH 包由宿主提供，`--omit=peer` 避免把 React 和 cordis 装第二份）：
 
 ```powershell
+git clone https://github.com/lingmao233/dsh-plugin-wechat-agent.git
 cd dsh-plugin-wechat-agent
-npm install --omit=peer
-cd ..
+npm ci --omit=peer
 dsh plugin --profile desktop add "C:\path\to\dsh-plugin-wechat-agent"
 ```
 
-也可以在 DSH 插件页面按本地目录安装，然后重启 DSH。修改插件代码后同样需要重启；没有 HMR 时按 DSH 提示操作。
+`dsh plugin ... add` 里的路径换成你克隆下来的**绝对路径**（在 PowerShell 里可用 `(Get-Location).Path` 查看当前目录）。也可以在 DSH 插件页面按本地目录安装，然后重启 DSH。修改插件代码后同样需要重启；没有 HMR 时按 DSH 提示操作。
 
 安装后不必单独启动控制台。SSH 隧道和远程模式下控制台本来就在虚拟机上跑；本地模式下若配置端口已有手动启动的控制台，代理会复用它，但该进程不由插件管理。
 
