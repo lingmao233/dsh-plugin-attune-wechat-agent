@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.5.0 — 2026-11-03
+
+- Voice synthesis is no longer tied to Aliyun. `TTS_PROVIDER` now accepts
+  `aliyun`, `openai_compatible`, and `elevenlabs`; shared `TTS_BASE_URL` /
+  `TTS_API_KEY` fields work across providers while the old Aliyun fields remain
+  supported as fallbacks.
+- The voice DIY card is capability-driven: providers without cloning hide the
+  upload form and offer preset voice buttons plus "试听当前音色"; providers with
+  cloning keep the existing upload, preview, refresh, activate and delete flow.
+- Profiles remember their provider. Switching provider or model marks old
+  profiles as unavailable instead of sending their voice IDs to the wrong API.
+- Added `POST /wechat/api/voice/preview-current` for preset/no-clone providers.
+- New backend providers: OpenAI-compatible `/v1/audio/speech` (preset voices),
+  ElevenLabs TTS with instant cloning, and the existing Aliyun async cloning.
+
 ## 0.4.0 — 2026-11-03
 
 - Added a compact "声音 DIY" card to the settings tab: upload a 5–30 second
