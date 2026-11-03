@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.3 — 2026-11-03
+
+- Redesigned the overview switch section as a compact status list. Probability
+  rows now show only the percentage (`40%`, or `0%` when off), with a small
+  progress bar; boolean rows show 开启/关闭.
+- Merged the overview "虚拟机与部署" and "连接" cards into one
+  "虚拟机与连接" card, removing the duplicate connection card.
+- One-click deployments now write the default persona 大肥鱼
+  (`personas/dafeiyu/SKILL.md`) into the initial `.env`.
+
 ## 0.3.2 — 2026-11-03
 
 - Removed the echo summary from the chat composer dock; echo now lives only on
