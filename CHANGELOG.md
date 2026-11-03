@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.7 — 2026-11-03
+
+- Reordered the console tabs to 概览 / 回声 / 平台 / 设置 / 部署 / 日志, keeping
+  setup and diagnostics at the end.
+
 ## 0.3.6 — 2026-11-03
 
 - Overview probability rows now show only the percentage (`40%`, or `0%` when
