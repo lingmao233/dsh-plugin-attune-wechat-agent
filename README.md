@@ -1,6 +1,6 @@
 # Attune · 微信 AI Agent / WeChat AI Agent
 
-Attune 是接入 DeepSeek Harness（DSH）桌面端的**微信 AI Agent（WeChat AI agent）**会话工作台：它让 AI 在微信群里记住关系、积累情感与成员画像，并通过语音、主动互动和跨平台内容参与群聊。技术包名为 `dsh-plugin-attune`；原名 `Weave` / `dsh-plugin-wechat-agent`。
+Attune 是接入 DeepSeek Harness（DSH）桌面端的**微信 AI Agent（WeChat AI agent / WeChat agent）**会话工作台：它让 AI 在微信群里记住关系、积累情感与成员画像，并通过语音、主动互动和跨平台内容参与群聊。技术包名为 `dsh-plugin-attune`；原名 `Weave` / `dsh-plugin-wechat-agent`。
 
 > 搜索关键词：微信agent、微信ai、微信AI、wechatagent、wechatai、wechat agent、wechat ai、微信机器人、微信群助手、DSH 微信插件。搜这些词都应该能找到 Attune。
 
