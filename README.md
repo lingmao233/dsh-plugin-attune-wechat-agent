@@ -1,8 +1,12 @@
-# Weave
+# Attune · 微信 AI Agent / WeChat AI Agent
 
-Weave 是接入 DeepSeek Harness（DSH）桌面端的会话工作台，技术包名为 `dsh-plugin-wechat-agent`。host 半在 DSH 的 HTTP 服务上挂载同源 `/wechat/api/*` 代理、`/wechat/health` 状态探针和 `/wechat/setup/*` 一键部署接口；client 半提供一个完整的蓝白控制台页面（会话顶部「Weave」标签页，同时是设置里的「Weave」分节），成员画像和群像都在页面内的「回声」子页查看。
+Attune 是接入 DeepSeek Harness（DSH）桌面端的**微信 AI Agent（WeChat AI agent）**会话工作台：它让 AI 在微信群里记住关系、积累情感与成员画像，并通过语音、主动互动和跨平台内容参与群聊。技术包名为 `dsh-plugin-attune`；原名 `Weave` / `dsh-plugin-wechat-agent`。
 
-> 开源 MIT。通过 Weave 把 Agent 部署到一台 Ubuntu / Xubuntu 24.04 LTS 虚拟机，再从 DSH 里连接、配置和控制。请只使用**专用测试微信号**，不要用主号。
+> 搜索关键词：微信agent、微信ai、微信AI、wechatagent、wechatai、wechat agent、wechat ai、微信机器人、微信群助手、DSH 微信插件。搜这些词都应该能找到 Attune。
+
+host 半在 DSH 的 HTTP 服务上挂载同源 `/wechat/api/*` 代理、`/wechat/health` 状态探针和 `/wechat/setup/*` 一键部署接口；client 半提供一个完整的蓝白控制台页面（会话顶部「Attune」标签页，同时是设置里的「Attune」分节），成员画像和群像都在页面内的「回声」子页查看。
+
+> 开源 MIT。通过 Attune 把 Agent 部署到一台 Ubuntu / Xubuntu 24.04 LTS 虚拟机，再从 DSH 里连接、配置和控制。请只使用**专用测试微信号**，不要用主号。
 
 插件有四种模式：
 
@@ -13,7 +17,7 @@ Weave 是接入 DeepSeek Harness（DSH）桌面端的会话工作台，技术包
 
 优先级是「部署页保存的虚拟机连接」> `remote_ssh` > `remote_url` > 本地。已经用 `remote_ssh` 手工配好的环境升级后行为不变；一旦在部署页连接过虚拟机，就由部署页接管连接（想退回，点「断开」即可）。
 
-控制台页面名为 Weave，采用蓝白 DS 风格并沿用 DSH 主题变量，六个子页为「概览、回声、平台、设置、部署、日志」：概览包含运行状态、启动 / 停止、已回复 / 读取 / 队列 / 异常四项关键计数、回复能力和真实最近动态，监听范围与连接入口集中展示，完整统计与白名单收在「更多数据与白名单」；回声是成员画像与群像；平台是抖音/小红书账号状态、三号互联关联、浏览与评论，动作台账、共享记忆与主动浏览收在页面末尾的折叠区；设置读写虚拟机 `.env`（216 项，常用项，高级折叠），并提供按供应商能力显示的「声音 DIY」和「试听当前音色」；部署是一键连接 / 检测 / 安装 / 启动微信 / 配置的五步向导；日志是事件流、回复账本与发送审计。
+控制台页面名为 Attune，采用蓝白 DS 风格并沿用 DSH 主题变量，六个子页为「概览、回声、平台、设置、部署、日志」：概览包含运行状态、启动 / 停止、已回复 / 读取 / 队列 / 异常四项关键计数、回复能力和真实最近动态，监听范围与连接入口集中展示，完整统计与白名单收在「更多数据与白名单」；回声是成员画像与群像；平台是抖音/小红书账号状态、三号互联关联、浏览与评论，动作台账、共享记忆与主动浏览收在页面末尾的折叠区；设置读写虚拟机 `.env`（216 项，常用项，高级折叠），并提供按供应商能力显示的「声音 DIY」和「试听当前音色」；部署是一键连接 / 检测 / 安装 / 启动微信 / 配置的五步向导；日志是事件流、回复账本与发送审计。
 
 ## 环境要求
 
@@ -27,19 +31,27 @@ Weave 是接入 DeepSeek Harness（DSH）桌面端的会话工作台，技术包
 本仓库就是插件源码。本地路径安装会以 `link:` 链接进 profile，因此先安装插件自身声明的依赖（DSH 包由宿主提供，`--omit=peer` 避免把 React 和 cordis 装第二份）：
 
 ```powershell
-git clone https://github.com/lingmao233/dsh-plugin-wechat-agent.git
-cd dsh-plugin-wechat-agent
+git clone https://github.com/lingmao233/dsh-plugin-attune.git
+cd dsh-plugin-attune
 npm ci --omit=peer
-dsh plugin --profile desktop add "C:\path\to\dsh-plugin-wechat-agent"
+dsh plugin --profile desktop add "C:\path\to\dsh-plugin-attune"
 ```
 
 `dsh plugin ... add` 里的路径换成你克隆下来的**绝对路径**（在 PowerShell 里可用 `(Get-Location).Path` 查看当前目录）。也可以在 DSH 插件页面按本地目录安装，然后重启 DSH。修改插件代码后同样需要重启；没有 HMR 时按 DSH 提示操作。
+
+如果使用 DSH 官方「添加插件」，也可以直接粘贴 GitHub 地址：
+
+```text
+https://github.com/lingmao233/dsh-plugin-attune
+```
+
+首次安装会拉取依赖；装完按 DSH 提示重启。只输入裸包名 `dsh-plugin-attune` 时，需要该包已发布到 npm；目前以 GitHub 地址或本地目录为准。
 
 安装后不必单独启动控制台。SSH 隧道和远程模式下控制台本来就在虚拟机上跑；本地模式下若配置端口已有手动启动的控制台，代理会复用它，但该进程不由插件管理。
 
 ## 安装后怎么用（最短路径）
 
-1. 打开任意会话，点顶部「对话 / 轨迹 / 微信 / 设计」中的「Weave」，再切到「部署」；
+1. 打开任意会话，点顶部「对话 / 轨迹 / 微信 / 设计」中的「Attune」，再切到「部署」；
 2. 点「一键连接」，按弹窗提示在虚拟机终端运行一行命令，把打印的 `WECHAT-VM-CODE:...` 和开机密码填回弹窗，点「一键连接」；
 3. 点「一键部署到虚拟机」，等日志执行完；点「启动微信」并「查看虚拟机截图」扫码登录；
 4. 回到「概览」点「启动」；之后在「设置」里确认群、模型和发送开关。
@@ -58,8 +70,8 @@ dsh plugin --profile desktop add "C:\path\to\dsh-plugin-wechat-agent"
 
 装进 `desktop` profile 后有两个入口，任选其一：
 
-- **会话顶部标签页**：打开任意一个已有会话，标题下方就是 `对话 / 轨迹 / 微信 / 设计` 这一排，点「Weave」。它和对话、轨迹同级，切走不会丢会话；
-- **设置分节**：点左下角账号头像 → 「设置」（或 `Ctrl + Alt + ,`），左侧导航新增「Weave」。新会话、没有会话时也能从这里进。
+- **会话顶部标签页**：打开任意一个已有会话，标题下方就是 `对话 / 轨迹 / 微信 / 设计` 这一排，点「Attune」。它和对话、轨迹同级，切走不会丢会话；
+- **设置分节**：点左下角账号头像 → 「设置」（或 `Ctrl + Alt + ,`），左侧导航新增「Attune」。新会话、没有会话时也能从这里进。
 
 两个入口渲染同一个页面，页面内再分「概览 / 回声 / 平台 / 设置 / 部署 / 日志」六个子页。插件已经装进 `desktop` profile 时不需要再做什么；只改了 `lib/client.js` 的话，刷新一次页面（Ctrl+R）就会加载新前端。改了 `index.mjs` / `lib/*.mjs` 的 host 半后，重载插件即可生效（DSH 会监听 `~/.dsh/cordis.patch.yml`：改动该文件保存一次，插件会重新加载；也可以重启 DSH）。
 
@@ -115,7 +127,7 @@ dsh plugin --profile desktop add "C:\path\to\dsh-plugin-wechat-agent"
 内置源码包的维护：`assets/wechat-agent-linux-src.tar.gz` 由 `build/pack-source.mjs` 从 [wechat-agent-linux](https://github.com/lingmao233/wechat-agent-linux) 源码目录生成，排除 `.git`、`.venv`、`node_modules`、`tests`、`docs`、`.env`、数据库等。重新生成时，把源码仓库放在本插件目录的上一级，然后：
 
 ```powershell
-cd dsh-plugin-wechat-agent
+cd dsh-plugin-attune
 npm run build:source
 ```
 
@@ -146,7 +158,7 @@ npm run build:source
 
 ## 平台页（三号互联）
 
-「平台」子页把小红书 / 抖音接进同一个 Weave：
+「平台」子页把小红书 / 抖音接进同一个 Attune：
 
 - **账号状态**：分别显示抖音、小红书是否已登录、浏览器模式、账号 ID 和有效 @ 白名单；「打开浏览器」在虚拟机里打开可见浏览器，第一次用需要扫码登录，二维码区域就在虚拟机桌面；「关闭」立即释放浏览器；
 - **账号关联（三号互联）**：选择平台、填平台稳定用户 ID（不是昵称）、平台显示名，选一个微信成员后绑定。绑定后该平台 ID 自动进入 @ 白名单，解绑即移除；页面下方有「刷新」按钮；
@@ -193,7 +205,7 @@ SSH 使用系统 `ssh` 命令和默认密钥（`-o BatchMode=yes`，不会弹密
 
 ## 回声（成员画像 / 群像）
 
-回声只在 Weave 页面内显示，入口是会话顶部「Weave」→「回声」，或设置 → Weave →「回声」。不再占用聊天输入框上方。
+回声只在 Attune 页面内显示，入口是会话顶部「Attune」→「回声」，或设置 → Attune →「回声」。不再占用聊天输入框上方。
 
 - **成员画像**：读取 `GET /wechat/api/members`，按群展示好感度，支持按昵称、成员 ID 或群名搜索；**点任意成员行**进入成员详情，可看关系模式、好感值、画像字段、最近事件、成员 ID、所在群和控制台链接。
 - **群像**：读取 `GET /wechat/api/groups`，只保留 `@chatroom` 群；**点「查看详情」**进入群详情，可看群氛围、兴趣、群梗、群风格、AI 说话风格和最近时间线。

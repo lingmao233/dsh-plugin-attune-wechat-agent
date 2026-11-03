@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for improving `dsh-plugin-wechat-agent`.
+Thanks for improving `dsh-plugin-attune`.
 
 ## Before you start
 

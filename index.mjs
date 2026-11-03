@@ -1,5 +1,5 @@
 /**
- * dsh-plugin-wechat-agent — host half.
+ * dsh-plugin-attune — host half.
  *
  * A Cordis plugin (loaded as an out-of-tree bundle row, see cordis.patch.yml)
  * that puts the WeChat agent console into the DSH web GUI, in either of two
@@ -46,7 +46,7 @@ import z from '@deepseek-ai/schemastery';
 import { createSetupService } from './lib/setup.mjs';
 
 /** Cordis plugin name; the bundle row id lives in cordis.patch.yml. */
-export const name = 'wechat-agent';
+export const name = 'attune';
 
 /**
  * Hard-depend on the host webserver so Cordis waits for it to mount before
@@ -517,7 +517,7 @@ function startSshTunnel({ logger, target, port }) {
       '-L', `127.0.0.1:${port}:127.0.0.1:${port}`,
       target,
     ];
-    logger.info(`wechat-agent: ssh tunnel 127.0.0.1:${port} → ${target}:${port}`);
+    logger.info(`attune: ssh tunnel 127.0.0.1:${port} → ${target}:${port}`);
     try {
       // stdio is discarded: `ssh -N` writes nothing useful on success, and
       // piped stdio is the one spawn shape some hosts deny. Lifecycle and the
@@ -526,7 +526,7 @@ function startSshTunnel({ logger, target, port }) {
     } catch (error) {
       state.mode = 'stopped';
       state.error = messageOf(error);
-      logger.warn(`wechat-agent: ssh tunnel could not start: ${state.error}`);
+      logger.warn(`attune: ssh tunnel could not start: ${state.error}`);
       scheduleRetry();
       return;
     }
@@ -542,7 +542,7 @@ function startSshTunnel({ logger, target, port }) {
       state.restarts += 1;
       state.error = signal ? `signal ${signal}` : `exit code ${code}`;
       logger.warn(
-        `wechat-agent: ssh tunnel exited (${state.error}); retrying in ${TUNNEL_RETRY_MS / 1000}s`,
+        `attune: ssh tunnel exited (${state.error}); retrying in ${TUNNEL_RETRY_MS / 1000}s`,
       );
       scheduleRetry();
     });
@@ -565,7 +565,7 @@ function startSshTunnel({ logger, target, port }) {
     if (open) {
       state.mode = 'external';
       state.external = true;
-      logger.info(`wechat-agent: 127.0.0.1:${port} is already forwarded; reusing the existing tunnel`);
+      logger.info(`attune: 127.0.0.1:${port} is already forwarded; reusing the existing tunnel`);
       return;
     }
     launch();
@@ -595,7 +595,7 @@ function startSshTunnel({ logger, target, port }) {
         try {
           child.kill('SIGTERM');
         } catch (error) {
-          logger.warn(`wechat-agent: cannot stop the ssh tunnel: ${messageOf(error)}`);
+          logger.warn(`attune: cannot stop the ssh tunnel: ${messageOf(error)}`);
         }
       }
     },
@@ -706,7 +706,7 @@ function createProxy({ getUpstream, getToken, logger }) {
           return;
         }
         const timedOut = error.message === 'wechat console timeout';
-        logger.warn(`wechat-agent: proxy ${method} ${upstreamPath} failed: ${messageOf(error)}`);
+        logger.warn(`attune: proxy ${method} ${upstreamPath} failed: ${messageOf(error)}`);
         if (timedOut) {
           fail(504, 'wechat console timeout');
         } else {
@@ -798,7 +798,7 @@ function startConsole({ logger, python, projectDir, configFile, host, port, toke
       windowsHide: true,
     });
   } catch (error) {
-    logger.error(`wechat-agent: cannot start the Python console: ${messageOf(error)}`);
+    logger.error(`attune: cannot start the Python console: ${messageOf(error)}`);
     return { stop() {} };
   }
 
@@ -807,7 +807,7 @@ function startConsole({ logger, python, projectDir, configFile, host, port, toke
     stream.on('data', (chunk) => {
       for (const line of String(chunk).split(/\r?\n/)) {
         const text = line.trim();
-        if (text) logger[level](`wechat-agent: ${text}`);
+        if (text) logger[level](`attune: ${text}`);
       }
     });
   };
@@ -815,16 +815,16 @@ function startConsole({ logger, python, projectDir, configFile, host, port, toke
   relay(child.stderr, 'warn');
 
   child.on('error', (error) => {
-    logger.error(`wechat-agent: Python console failed: ${messageOf(error)}`);
+    logger.error(`attune: Python console failed: ${messageOf(error)}`);
   });
   child.on('exit', (code, signal) => {
     if (stopping) {
-      logger.info('wechat-agent: Python console stopped');
+      logger.info('attune: Python console stopped');
       return;
     }
     const detail = signal ? `signal ${signal}` : `code ${code}`;
     logger.warn(
-      `wechat-agent: Python console exited (${detail}); ${API_PREFIX} answers 502 until a console is reachable`,
+      `attune: Python console exited (${detail}); ${API_PREFIX} answers 502 until a console is reachable`,
     );
   });
 
@@ -836,7 +836,7 @@ function startConsole({ logger, python, projectDir, configFile, host, port, toke
       try {
         child.kill('SIGTERM');
       } catch (error) {
-        logger.warn(`wechat-agent: cannot stop the Python console: ${messageOf(error)}`);
+        logger.warn(`attune: cannot stop the Python console: ${messageOf(error)}`);
       }
     },
   };
@@ -982,7 +982,7 @@ export function apply(ctx, config) {
   const webServer = ctx.get('webServer');
 
   if (!webServer) {
-    ctx.logger.info('wechat-agent: this profile has no webServer; console proxy and panel stay idle');
+    ctx.logger.info('attune: this profile has no webServer; console proxy and panel stay idle');
     return;
   }
 
@@ -1065,7 +1065,7 @@ export function apply(ctx, config) {
         logger: ctx.logger,
       }),
     }),
-    'wechat-agent: same-origin /wechat/api proxy',
+    'attune: same-origin /wechat/api proxy',
   );
 
   ctx.effect(
@@ -1078,7 +1078,7 @@ export function apply(ctx, config) {
         getTunnel: () => (setup.getConnection() ? setup : systemTunnel),
       }),
     }),
-    'wechat-agent: /wechat/health console probe',
+    'attune: /wechat/health console probe',
   );
 
   ctx.effect(
@@ -1087,7 +1087,7 @@ export function apply(ctx, config) {
       path: SETUP_PREFIX,
       handler: (req, res) => setup.handle(req, res),
     }),
-    'wechat-agent: one-click VM setup routes',
+    'attune: one-click VM setup routes',
   );
 
   ctx.effect(
@@ -1096,16 +1096,16 @@ export function apply(ctx, config) {
       if (systemTunnel) systemTunnel.stop();
       if (consoleProcess) consoleProcess.stop();
     },
-    'wechat-agent: stop tunnel and console',
+    'attune: stop tunnel and console',
   );
 
   if (!upstream.transport) {
     ctx.logger.error(
-      `wechat-agent: ${upstream.error}; routes answer 502 until the connection is fixed`,
+      `attune: ${upstream.error}; routes answer 502 until the connection is fixed`,
     );
   }
   ctx.logger.info(
-    `wechat-agent: console ${upstream.mode} ${upstream.target}; `
+    `attune: console ${upstream.mode} ${upstream.target}; `
     + `panel read ${API_PREFIX}/{members,groups}, status ${HEALTH_PATH}, setup ${SETUP_PREFIX}/state`,
   );
 }

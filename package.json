@@ -1,7 +1,7 @@
 {
-  "name": "dsh-plugin-wechat-agent",
-  "version": "0.5.1",
-  "description": "Weave for DeepSeek Harness: connect a Linux VM over SSH, deploy the WeChat console, and manage conversations in a blue-and-white workspace.",
+  "name": "dsh-plugin-attune",
+  "version": "0.6.0",
+  "description": "Attune — 微信 AI Agent / WeChat AI agent for DeepSeek Harness: long-term memory, emotional relationships, voice and one-click Linux VM deployment. 微信agent、微信ai、wechatagent、wechatai 都能搜到。",
   "type": "module",
   "main": "index.mjs",
   "exports": {
@@ -42,17 +42,29 @@
     "dsh",
     "dsh-plugin",
     "deepseek-harness",
+    "attune",
     "wechat",
     "wechat-agent",
+    "wechat-ai",
+    "wechatagent",
+    "wechatai",
+    "wechat-bot",
+    "微信",
+    "微信agent",
+    "微信ai",
+    "微信机器人",
+    "微信群助手",
+    "ai-companion",
+    "emotional-ai",
     "one-click-deploy"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lingmao233/dsh-plugin-wechat-agent.git"
+    "url": "git+https://github.com/lingmao233/dsh-plugin-attune.git"
   },
-  "homepage": "https://github.com/lingmao233/dsh-plugin-wechat-agent",
+  "homepage": "https://github.com/lingmao233/dsh-plugin-attune",
   "bugs": {
-    "url": "https://github.com/lingmao233/dsh-plugin-wechat-agent/issues"
+    "url": "https://github.com/lingmao233/dsh-plugin-attune/issues"
   },
   "author": "lingmao233",
   "peerDependencies": {

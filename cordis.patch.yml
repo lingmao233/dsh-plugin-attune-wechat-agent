@@ -1,4 +1,4 @@
-# dsh-plugin-wechat-agent bundle patch.
+# dsh-plugin-attune bundle patch.
 #
 # Applied over the dsh-web-app layer. This bundle contributes ONE host row:
 # it proxies the WeChat agent console API under same-origin `/wechat/api/*`,
@@ -18,5 +18,5 @@
 # no webserver registers nothing, starts no console process and throws nothing.
 
 - insert:
-    - id: wechat-agent
-      name: 'dsh-plugin-wechat-agent'
+    - id: attune
+      name: 'dsh-plugin-attune'

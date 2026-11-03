@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.6.0 — 2026-11-03
+
+- Renamed the plugin from Weave / `dsh-plugin-wechat-agent` to **Attune** /
+  `dsh-plugin-attune`. The visible brand, slot labels, package name, bundle row,
+  repository URL and docs now use Attune; the stable `/wechat/*` API namespace
+  and the Linux agent source repo keep their existing names.
+- Added WeChat discoverability metadata: package keywords, README title and
+  search-keyword section, and GitHub repository description/topics covering
+  `微信agent`, `微信ai`, `wechatagent`, `wechatai`, `wechat agent`, `wechat ai`,
+  `微信机器人` and `微信群助手`.
+- No backend or configuration changes; existing `wechat-agent-setup.json`
+  connections and Linux VM state are retained.
+
 ## 0.5.1 — 2026-11-03
 
 - The overview's "处理队列" counter is now clickable. Its drill-down
