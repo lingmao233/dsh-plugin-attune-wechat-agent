@@ -190,6 +190,7 @@ npm run build:source
 - **「声音 DIY」卡片**：按当前供应商能力显示。阿里云 / ElevenLabs 可上传 5–30 秒（推荐 10–20 秒）清晰单人录音，后端转成 24 kHz 单声道 PCM 后复刻；列表显示「可用 / 审核中 / 失败」，可试听、刷新状态、设为当前和删除。OpenAI 兼容等只支持预置音色的供应商会隐藏上传框，改为预置音色按钮和「试听当前音色」。录音会发送到当前供应商，样例只保存在虚拟机 `state/voice-profiles/`；旧版手工配置的自定义 `TTS_VOICE` 可以「导入到 DIY 列表」。切换音色会写入 `TTS_PROVIDER` / `TTS_VOICE`，按需重启监听；切换供应商或模型后旧音色会标记为不可用；
 - **语音供应商**：设置页新增 `TTS_PROVIDER`（`aliyun` / `openai_compatible` / `elevenlabs`）和通用 `TTS_BASE_URL`、`TTS_API_KEY`；阿里云仍可使用原来的 `ALIYUN_AUDIO_BASE_URL` / `ALIYUN_AUDIO_API_KEY`。切换供应商后同步修改 `TTS_MODEL` 和 `TTS_VOICE`。
 - **「人设文件上传」卡片支持直接拖拽文件或整个文件夹**（也可以点「选择文件 / 选择文件夹」）：文件夹会保留 `references/` 等子目录；只收文本扩展名（`.md/.markdown/.txt/.json/.yaml/.yml/.toml/.ini/.csv`），单次最多 200 个文件、合计 5 MB；填好人设目录名后上传到虚拟机 `personas/<name>/`，可勾选「覆盖同名文件」和「上传后设为当前人设」（写 `PERSONA_NAME` / `PERSONA_FILE` 并按需重载）；主文件优先 `SKILL.md`，其次顶层第一个 `.md`；成功后会刷新「虚拟机上的 N 个人设」列表。一键部署生成的初始 `.env` 默认就是大肥鱼人设（`PERSONA_NAME=大肥鱼`、`PERSONA_FILE=personas/dafeiyu/SKILL.md`），安装后不用再手动配置；
+- 上传的人设可以带两个可选文件，用来把“说话”和“长相”也从内置角色里解耦：`references/speech-style.md` 控制这个角色的语气，`references/image-style.md` 控制自动配图里的角色外观。没有 `speech-style.md` 时只注入通用规则，不会继承大肥鱼口癖；没有 `image-style.md` 时自动配图关闭，不会偷画成鲸鱼娘，但用户明确说“画一张……”的普通生图仍按用户提示词生成。内置大肥鱼也使用这两个文件；
 - 保存是两步确认：写入 `POST /wechat/api/config`（`{ values, clear_secrets }`），落盘到虚拟机 `.env`，Agent 正在运行时按新配置重启监听；成功后提示「已保存，监听已按新配置重启」。「重置」丢弃所有未保存改动并重新拉取。
 
 本页只读写 Python 侧 `CONFIG_SCHEMA`，插件自己的 9 个连接参数仍在 DSH 插件设置里。

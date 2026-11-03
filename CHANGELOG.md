@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.7.0 — 2026-11-03
+
+- 生图和人设不再写死大肥鱼：`personas/<name>/references/speech-style.md` 控制说话风格，`references/image-style.md` 控制自动配图的角色外观。两个文件都是可选的。
+- 自定义人设没有 `speech-style.md` 时只得到通用规则，不会收到大肥鱼的口头禅、傲娇示例或语气轮换；没有 `image-style.md` 时自动配图直接关闭，不会偷偷画成内置鲸鱼娘。
+- 用户明确说“画一张……”的普通生图仍按用户提示词生成，不受自动配图开关影响。
+- 内置大肥鱼的行为保持不变：它的语气和外观已迁移到 `personas/dafeiyu/references/speech-style.md` 和 `image-style.md`。
+- 配图缓存按当前人设的图片风格分目录保存，切换人设不会复用旧角色的配图。
+- 控制台把“鲸鱼娘配图”改成通用的“角色配图”，并说明参考文件的启用条件。
+
 ## 0.6.0 — 2026-11-03
 
 - Renamed the plugin from Weave / `dsh-plugin-wechat-agent` to **Attune** /
