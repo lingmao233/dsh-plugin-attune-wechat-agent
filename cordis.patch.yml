@@ -1,0 +1,22 @@
+# dsh-plugin-wechat-agent bundle patch.
+#
+# Applied over the dsh-web-app layer. This bundle contributes ONE host row:
+# it proxies the WeChat agent console API under same-origin `/wechat/api/*`,
+# serves `/wechat/health` as a compact status probe, and — only in local mode
+# (`remote_url` empty) — owns the `python -m wechat_agent desktop` child
+# process. With `remote_url` set the row proxies a console that already runs
+# elsewhere (the Linux VM) and owns no process at all, so the host DSH reads
+# the real machine. The `dsh.client` manifest in package.json loads the browser
+# half that registers the "回声" panel in the chat composer dock.
+#
+# A patch replaces the targeted row's whole `config`, so only additive `insert`
+# rows appear here (we never override an existing shipped row).
+#
+# `webServer` is a hard injection: the host half waits for the HTTP server to
+# mount before registering routes (reading it eagerly would race other rows).
+# apply still guards a profile that provides no server, so a direct call with
+# no webserver registers nothing, starts no console process and throws nothing.
+
+- insert:
+    - id: wechat-agent
+      name: 'dsh-plugin-wechat-agent'

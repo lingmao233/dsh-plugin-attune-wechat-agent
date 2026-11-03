@@ -1,0 +1,78 @@
+{
+  "name": "dsh-plugin-wechat-agent",
+  "version": "0.3.1",
+  "description": "One-click WeChat agent for a Linux VM: connect over SSH, deploy the Python console, configure it and control it from DeepSeek Harness.",
+  "type": "module",
+  "main": "index.mjs",
+  "exports": {
+    ".": "./index.mjs",
+    "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.mjs",
+    "lib/client.js",
+    "lib/remote.mjs",
+    "lib/setup.mjs",
+    "lib/tarball.mjs",
+    "build/pack-source.mjs",
+    "assets/",
+    "cordis.patch.yml",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build:source": "node build/pack-source.mjs",
+    "check": "node --check index.mjs && node --check lib/client.js && node --check lib/remote.mjs && node --check lib/setup.mjs && node --check lib/tarball.mjs"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime"
+      ],
+      "platform": "web",
+      "immediately": true
+    }
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "wechat",
+    "wechat-agent",
+    "one-click-deploy"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lingmao233/dsh-plugin-wechat-agent.git"
+  },
+  "homepage": "https://github.com/lingmao233/dsh-plugin-wechat-agent",
+  "bugs": {
+    "url": "https://github.com/lingmao233/dsh-plugin-wechat-agent/issues"
+  },
+  "author": "lingmao233",
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@deepseek-ai/dsh-client-runtime": ">=0.1.0-rc.6",
+    "@deepseek-ai/dsh-client-ui-slots": ">=0.1.0-rc.6",
+    "@deepseek-ai/dsh-host-webserver": ">=0.1.0-rc.6",
+    "react": "^18.2.0"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-host-webserver": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "^3.18.5",
+    "ssh2": "1.17.0"
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24"
+  },
+  "license": "MIT"
+}
