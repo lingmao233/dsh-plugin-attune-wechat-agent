@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.6 — 2026-11-03
+
+- Overview probability rows now show only the percentage (`40%`, or `0%` when
+  off). The slim progress bar was removed to keep the status list quieter.
+
 ## 0.3.5 — 2026-11-03
 
 - When the plugin is already connected to a VM, the overview now moves the
