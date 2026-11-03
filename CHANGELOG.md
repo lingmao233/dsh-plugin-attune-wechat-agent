@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.5.1 — 2026-11-03
+
+- The overview's "处理队列" counter is now clickable. Its drill-down
+  (`GET /wechat/api/queue`) shows claimed messages with conversation, speaker,
+  text preview, age, attempt count and reason, plus durable reply jobs waiting
+  behind them and recent process-interrupted records.
+- Startup now closes stale `reply_records.processing` claims that were left
+  behind by a previous agent process. Previously a crash during a send could
+  leave the overview's queue counter stuck at 1 forever because the original
+  message was never replayed; the row is now marked `failed` with reason
+  `processing_interrupted` and listed in the queue drill-down history.
+
 ## 0.5.0 — 2026-11-03
 
 - Voice synthesis is no longer tied to Aliyun. `TTS_PROVIDER` now accepts

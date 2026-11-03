@@ -1,6 +1,6 @@
 {
   "name": "dsh-plugin-wechat-agent",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Weave for DeepSeek Harness: connect a Linux VM over SSH, deploy the WeChat console, and manage conversations in a blue-and-white workspace.",
   "type": "module",
   "main": "index.mjs",
