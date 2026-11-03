@@ -77,6 +77,15 @@ const MAX_BODY_BYTES = 1_000_000;
  * a 5 MB of text JSON plus base-less UTF-8 overhead stays well inside it.
  */
 const PERSONA_UPLOAD_MAX_BODY_BYTES = 12_000_000;
+
+/**
+ * Voice reference audio travels as base64 JSON. The console caps the decoded
+ * sample at 10 MB, so this hop needs the same 16 MB ceiling as the Python API.
+ * Voice enrollment and preview also call the provider, which can take longer
+ * than the small status/read requests the default timeout was tuned for.
+ */
+const VOICE_UPLOAD_MAX_BODY_BYTES = 16_000_000;
+const VOICE_UPSTREAM_TIMEOUT_MS = 180_000;
 /** Headers an HTTP proxy must not copy between hops. */
 const HOP_BY_HOP = new Set([
   'connection',
@@ -637,7 +646,13 @@ function createProxy({ getUpstream, getToken, logger }) {
     }
     const upstreamPath = `${upstream.basePath}/api${url.pathname.slice(API_PREFIX.length)}${url.search}`;
     const relativePath = url.pathname.slice(API_PREFIX.length);
-    const bodyLimit = relativePath === '/personas/upload' ? PERSONA_UPLOAD_MAX_BODY_BYTES : MAX_BODY_BYTES;
+    const isVoiceRoute = relativePath.startsWith('/voice/');
+    const bodyLimit = relativePath === '/personas/upload'
+      ? PERSONA_UPLOAD_MAX_BODY_BYTES
+      : relativePath === '/voice/profiles'
+        ? VOICE_UPLOAD_MAX_BODY_BYTES
+        : MAX_BODY_BYTES;
+    const upstreamTimeout = isVoiceRoute ? VOICE_UPSTREAM_TIMEOUT_MS : UPSTREAM_TIMEOUT_MS;
 
     const headers = {};
     for (const header of ['accept', 'content-type']) {
@@ -670,7 +685,7 @@ function createProxy({ getUpstream, getToken, logger }) {
           method,
           path: upstreamPath,
           headers,
-          timeout: UPSTREAM_TIMEOUT_MS,
+          timeout: upstreamTimeout,
         },
         (upstreamRes) => {
           finished = true;

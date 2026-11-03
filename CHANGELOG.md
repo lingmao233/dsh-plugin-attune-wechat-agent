@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.4.0 — 2026-11-03
+
+- Added a compact "声音 DIY" card to the settings tab: upload a 5–30 second
+  single-speaker recording, normalize it to 24 kHz mono PCM, enroll it with
+  Qwen-Audio voice cloning, then preview, refresh, activate and delete it.
+- Added authenticated console routes for voice profiles and previews. Profiles
+  are stored locally under `state/voice-profiles/`; activation writes
+  `TTS_VOICE` and reloads/restarts the agent as needed.
+- Existing hand-configured custom `TTS_VOICE` values can be imported into the
+  DIY list, and profiles created with an older TTS model are marked instead of
+  being activated by mistake.
+- The plugin proxy now accepts 16 MB request bodies and a 180-second upstream
+  timeout for the voice routes, so enrollment does not hit the small status API
+  limits.
+
 ## 0.3.8 — 2026-11-03
 
 - Compacted the console shell into one topbar: brand and connection state on the

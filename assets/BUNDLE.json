@@ -1,9 +1,9 @@
 {
-  "builtAt": "2026-11-03T02:45:52.798Z",
+  "builtAt": "2026-11-03T03:58:18.699Z",
   "tarball": "wechat-agent-linux-src.tar.gz",
-  "sha256": "25cab109b89e7972e97c0973ac4678255d11e8ff5b0ef5bc8b808a432e7d3154",
-  "files": 129,
-  "bytes": 1754708,
-  "builtInMs": 118,
+  "sha256": "08fed6c62a46c184f5f84f7051b5911fff9b0e1bb90f9fcc6cca77fcfa5df7c6",
+  "files": 130,
+  "bytes": 1780753,
+  "builtInMs": 125,
   "source": "wechat-agent-linux"
 }
