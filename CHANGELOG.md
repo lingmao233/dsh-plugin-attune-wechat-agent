@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.8 — 2026-11-03
+
+- Compacted the console shell into one topbar: brand and connection state on the
+  left, the six tabs on the right; the separate page heading is gone.
+- Rebuilt the overview as a single "RUNNING OVERVIEW" card with one status
+  line, three key counters (已回复 / 处理队列 / 异常任务), and the compact switch
+  list. Full counters and allowlists now live under "更多数据与白名单".
+- Tightened the other five tabs: shorter hints, no duplicate log subtitle, and
+  the platform ledger/memories/proactive cards are grouped under one fold.
+- Removed the affinity meter bars from the echo list and detail; the affinity
+  number remains.
+
 ## 0.3.7 — 2026-11-03
 
 - Reordered the console tabs to 概览 / 回声 / 平台 / 设置 / 部署 / 日志, keeping
