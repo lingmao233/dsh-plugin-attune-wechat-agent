@@ -1,6 +1,6 @@
 {
   "name": "dsh-plugin-attune",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Attune — 微信 AI Agent / 微信 AI / WeChat agent / WeChat AI for DeepSeek Harness: emotional memory, moods, relationships, voice. Search 微信agent / 微信ai / wechatagent / wechatai.",
   "type": "module",
   "main": "index.mjs",
