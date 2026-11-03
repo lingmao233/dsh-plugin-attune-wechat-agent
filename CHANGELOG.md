@@ -10,8 +10,13 @@
   search-keyword section, and GitHub repository description/topics covering
   `微信agent`, `微信ai`, `wechatagent`, `wechatai`, `wechat agent`, `wechat ai`,
   `微信机器人` and `微信群助手`.
-- No backend or configuration changes; existing `wechat-agent-setup.json`
-  connections and Linux VM state are retained.
+- Upgrade note: a manual home-level DSH patch row that still uses
+  `id: wechat-agent` / `name: dsh-plugin-wechat-agent` must be renamed to
+  `id: attune` / `name: dsh-plugin-attune`. Otherwise its `remote_ssh` config is
+  ignored and the panel falls back to local mode with a disconnected console.
+- No backend or configuration changes; existing VM state is retained. If the
+  wizard state was removed, configure the connection again from the deploy page
+  or use the home-level `remote_ssh` patch shown in the README.
 
 ## 0.5.1 — 2026-11-03
 

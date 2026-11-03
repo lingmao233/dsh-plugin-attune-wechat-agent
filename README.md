@@ -47,6 +47,19 @@ https://github.com/lingmao233/dsh-plugin-attune-wechat-agent
 
 首次安装会拉取依赖；装完按 DSH 提示重启。只输入裸包名 `dsh-plugin-attune` 时，需要该包已发布到 npm；目前以 GitHub 地址或本地目录为准。
 
+### 从 Weave / 旧包名升级
+
+如果你曾在 `~/.dsh/cordis.patch.yml` 里手工给旧插件配置 `remote_ssh`，升级后要把那一行的 `id` / `name` 一起改成 Attune，否则 DSH 不会把 `remote_ssh` 传给新插件，界面会显示连接断开并退回本地模式：
+
+```yaml
+- id: attune
+  name: "dsh-plugin-attune"
+  config:
+    remote_ssh: jdy@192.168.126.128
+```
+
+改完后 DSH 会热加载配置并重新拉起 SSH 隧道；如果页面还显示断开，按 Ctrl+R 刷新。
+
 安装后不必单独启动控制台。SSH 隧道和远程模式下控制台本来就在虚拟机上跑；本地模式下若配置端口已有手动启动的控制台，代理会复用它，但该进程不由插件管理。
 
 ## 安装后怎么用（最短路径）
