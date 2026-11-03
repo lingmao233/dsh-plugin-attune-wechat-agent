@@ -86,6 +86,8 @@ const PERSONA_UPLOAD_MAX_BODY_BYTES = 12_000_000;
  */
 const VOICE_UPLOAD_MAX_BODY_BYTES = 16_000_000;
 const VOICE_UPSTREAM_TIMEOUT_MS = 180_000;
+/** Persona design calls the configured chat model, so it needs more than a status read. */
+const PERSONA_DESIGN_UPSTREAM_TIMEOUT_MS = 120_000;
 /** Headers an HTTP proxy must not copy between hops. */
 const HOP_BY_HOP = new Set([
   'connection',
@@ -652,7 +654,11 @@ function createProxy({ getUpstream, getToken, logger }) {
       : relativePath === '/voice/profiles'
         ? VOICE_UPLOAD_MAX_BODY_BYTES
         : MAX_BODY_BYTES;
-    const upstreamTimeout = isVoiceRoute ? VOICE_UPSTREAM_TIMEOUT_MS : UPSTREAM_TIMEOUT_MS;
+    const upstreamTimeout = isVoiceRoute
+      ? VOICE_UPSTREAM_TIMEOUT_MS
+      : relativePath === '/personas/design'
+        ? PERSONA_DESIGN_UPSTREAM_TIMEOUT_MS
+        : UPSTREAM_TIMEOUT_MS;
 
     const headers = {};
     for (const header of ['accept', 'content-type']) {

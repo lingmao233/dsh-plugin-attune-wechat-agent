@@ -189,8 +189,9 @@ npm run build:source
 - 密钥类字段只显示「已配置 / 未配置」，留空提交表示保持原值，勾选「清除」才会清空；修改项会实时计数；
 - **「声音 DIY」卡片**：按当前供应商能力显示。阿里云 / ElevenLabs 可上传 5–30 秒（推荐 10–20 秒）清晰单人录音，后端转成 24 kHz 单声道 PCM 后复刻；列表显示「可用 / 审核中 / 失败」，可试听、刷新状态、设为当前和删除。OpenAI 兼容等只支持预置音色的供应商会隐藏上传框，改为预置音色按钮和「试听当前音色」。录音会发送到当前供应商，样例只保存在虚拟机 `state/voice-profiles/`；旧版手工配置的自定义 `TTS_VOICE` 可以「导入到 DIY 列表」。切换音色会写入 `TTS_PROVIDER` / `TTS_VOICE`，按需重启监听；切换供应商或模型后旧音色会标记为不可用；
 - **语音供应商**：设置页新增 `TTS_PROVIDER`（`aliyun` / `openai_compatible` / `elevenlabs`）和通用 `TTS_BASE_URL`、`TTS_API_KEY`；阿里云仍可使用原来的 `ALIYUN_AUDIO_BASE_URL` / `ALIYUN_AUDIO_API_KEY`。切换供应商后同步修改 `TTS_MODEL` 和 `TTS_VOICE`。
-- **「人设文件上传」卡片支持直接拖拽文件或整个文件夹**（也可以点「选择文件 / 选择文件夹」）：文件夹会保留 `references/` 等子目录；只收文本扩展名（`.md/.markdown/.txt/.json/.yaml/.yml/.toml/.ini/.csv`），单次最多 200 个文件、合计 5 MB；填好人设目录名后上传到虚拟机 `personas/<name>/`，可勾选「覆盖同名文件」和「上传后设为当前人设」（写 `PERSONA_NAME` / `PERSONA_FILE` 并按需重载）；主文件优先 `SKILL.md`，其次顶层第一个 `.md`；成功后会刷新「虚拟机上的 N 个人设」列表。一键部署生成的初始 `.env` 默认就是大肥鱼人设（`PERSONA_NAME=大肥鱼`、`PERSONA_FILE=personas/dafeiyu/SKILL.md`），安装后不用再手动配置；
-- 上传的人设可以带两个可选文件，用来把“说话”和“长相”也从内置角色里解耦：`references/speech-style.md` 控制这个角色的语气，`references/image-style.md` 控制自动配图里的角色外观。没有 `speech-style.md` 时只注入通用规则，不会继承大肥鱼口癖；没有 `image-style.md` 时自动配图关闭，不会偷画成鲸鱼娘，但用户明确说“画一张……”的普通生图仍按用户提示词生成。内置大肥鱼也使用这两个文件；
+- **「人设设计」卡片**：用一段文字描述角色（身份、性格、说话方式、外观），勾选是否生成「人设语气」和「生图角色外观」，由当前文字模型生成 `SKILL.md` 以及可选的 `references/speech-style.md`、`references/image-style.md`；生成结果可在页面里预览和修改，再上传到虚拟机并设为当前人设。生成提示词不会读取或复制当前人设，换角色时不会继承大肥鱼的语气或外观；勾掉某个风格选项就不会生成对应文件，也就不会注入该风格；
+- **「人设文件上传」卡片支持直接拖拽文件或整个文件夹**（也可以点「选择文件 / 选择文件夹」）：文件夹会保留 `references/` 等子目录；只收文本扩展名（`.md/.markdown/.txt/.json/.yaml/.yml/.toml/.ini/.csv`），单次最多 200 个文件、合计 5 MB；根目录散放的 `speech-style.md` / `image-style.md` 会自动归到 `references/`；填好人设目录名后上传到虚拟机 `personas/<name>/`，可勾选「覆盖同名文件」和「上传后设为当前人设」（写 `PERSONA_NAME` / `PERSONA_FILE` 并按需重载）；主文件优先 `SKILL.md`，其次顶层第一个 `.md`；成功后会刷新「虚拟机上的 N 个人设」列表。一键部署生成的初始 `.env` 默认就是大肥鱼人设（`PERSONA_NAME=大肥鱼`、`PERSONA_FILE=personas/dafeiyu/SKILL.md`），安装后不用再手动配置；
+- 上传的人设可以带两个可选文件，用来把“说话”和“长相”也从内置角色里解耦：`references/speech-style.md` 控制这个角色的语气，`references/image-style.md` 控制自动配图里的角色外观。这两个文件都只影响自己的角色：没有 `speech-style.md` 时只注入通用规则，不会继承大肥鱼口癖；没有 `image-style.md` 时自动配图关闭，不会偷画成鲸鱼娘，但用户明确说“画一张……”的普通生图仍按用户提示词生成。切换人设时也不会把上一任角色的风格带过来；内置大肥鱼也使用这两个文件；
 - 保存是两步确认：写入 `POST /wechat/api/config`（`{ values, clear_secrets }`），落盘到虚拟机 `.env`，Agent 正在运行时按新配置重启监听；成功后提示「已保存，监听已按新配置重启」。「重置」丢弃所有未保存改动并重新拉取。
 
 本页只读写 Python 侧 `CONFIG_SCHEMA`，插件自己的 9 个连接参数仍在 DSH 插件设置里。
@@ -239,7 +240,7 @@ SSH 使用系统 `ssh` 命令和默认密钥（`-o BatchMode=yes`，不会弹密
 | `/wechat/setup/run` | 部署 / 更新 / 阶段（agent、key、check、autostart）/ 启动控制台 / 启动微信 / 启动 Agent，异步任务，日志通过 `/state` 轮询 | `POST` |
 | `/wechat/setup/screenshot` | 虚拟机桌面截图（PNG data URL），给扫码登录用 | `POST` |
 
-代理自动附带令牌，浏览器不直接接触控制台地址和令牌。具体 API 路径由 `desktop.py` 决定，插件不维护第二套路由表。部署接口只接受 JSON，POST body 上限 1 MB，与 DSH webServer 的其他接口一致；唯一例外是 `/wechat/api/personas/upload`（人设文件/文件夹上传），上限放宽到 **12 MB**，与控制台侧 5 MB 文本上限留足 JSON/UTF-8 开销。
+代理自动附带令牌，浏览器不直接接触控制台地址和令牌。具体 API 路径由 `desktop.py` 决定，插件不维护第二套路由表。部署接口只接受 JSON，POST body 上限 1 MB，与 DSH webServer 的其他接口一致；唯一例外是 `/wechat/api/personas/upload`（人设文件/文件夹上传），上限放宽到 **12 MB**，与控制台侧 5 MB 文本上限留足 JSON/UTF-8 开销。`/wechat/api/personas/design` 会调用当前文字模型生成人设，代理超时放宽到 **120 秒**；生成结果先返回预览，不会自动写入虚拟机，点上传后才落盘。
 
 `/wechat/health` 永远返回 200，即使虚拟机没开，因此可以直接给主机侧做状态展示或探活：
 
