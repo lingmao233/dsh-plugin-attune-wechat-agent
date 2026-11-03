@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.2 — 2026-11-03
+
+- Removed the echo summary from the chat composer dock; echo now lives only on
+  the plugin page.
+- Added click-through detail views for echo members and groups: profile fields,
+  recent events, group atmosphere/interests/memes, style, AI speech style and
+  timeline, with a back-to-list action.
+- Updated README for the in-page echo workflow.
+
 ## 0.3.1 — 2026-11-03
 
 - Public release trimmed to plugin sources; test files and CI workflow removed.
