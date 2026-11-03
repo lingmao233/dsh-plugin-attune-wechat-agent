@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.4 — 2026-11-03
+
+- Reworked the echo detail header: "← 返回列表" is now a small text link on
+  its own line, and the member/group name and metadata start below it instead
+  of sharing a flex row with the back button.
+
 ## 0.3.3 — 2026-11-03
 
 - Redesigned the overview switch section as a compact status list. Probability
